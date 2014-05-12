@@ -123,8 +123,12 @@ r.mapcalc diff_forest="pct_forest_${YEAR} - fnf_palsar_pct_forest"
 r.colors diff_forest color=differences
 d.rast diff_forest 
 d.vect countries fcolor=none type=boundary
-d.vect forest_2008v fcolor=none color=yellow
+d.vect forest_2008v fcolor=none color=orange
 d.legend diff_forest
 d.out.file --o -c out=diff_forest type=jpg
 d.out.rast --o diff_forest out=diff_forest.tif create="COMPRESS=LZW"
+r.out.gdal --o input=diff_forest output=MCD12C1_FNF_2008_difference.tif
+
+
+
 
