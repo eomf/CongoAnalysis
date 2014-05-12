@@ -69,6 +69,16 @@ for YEAR in $(seq 2001 2012); do
 r.mapcalc pct_forest_${YEAR}="float( (float(MCD12C1.A${YEAR}_Land_Cover_Type_1_Percent.1) + float(MCD12C1.A${YEAR}_Land_Cover_Type_1_Percent.2) + float(MCD12C1.A${YEAR}_Land_Cover_Type_1_Percent.3) + float(MCD12C1.A${YEAR}_Land_Cover_Type_1_Percent.4) + float(MCD12C1.A${YEAR}_Land_Cover_Type_1_Percent.5)) / float(100) )"
 done
 
+slopeandr2() { 
+    FILES=$1
+    TAG=$2
+    echo "Computing slope and r^2"
+    r.series --o input=${FILES} output=${TAG},${TAG}_R2 method=slope,detcoeff
+    echo "Exporting geotiffs"
+    r.out.gdal --o input=${TAG} output=${TAG}.tif create="COMPRESS=LZW"
+    r.out.gdal --o input=${TAG}_R2 output=${TAG}_R2.tif create="COMPRESS=LZW"
+}
+
 # Put together string of raster names from previous step
 forest_pct=$(echo pct_forest_{2001..2012} | sed 's/ /,/g')
 # Compute slope and stdev
