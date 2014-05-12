@@ -80,9 +80,16 @@ slopeandr2() {
 }
 
 # Put together string of raster names from previous step
+g.region rast=pct_forest_2008
 forest_pct=$(echo pct_forest_{2001..2012} | sed 's/ /,/g')
-# Compute slope and stdev
-r.series input=${forest_pct} output=forest_slope_2001_2012 method=slope
+# Compute slope and r^2
+slopeandr2 ${forest_pct} MCD12C1_slope_2001_2012
+
+forest_pct=$(echo pct_forest_{2009..2012} | sed 's/ /,/g')
+slopeandr2 ${forest_pct} MCD12C1_slope_2009_2012
+
+
+
 
 r.out.gdal forest_slope_2001_2012 out=forest_slope_2001_2012.tif create="COMPRESS=LZW"
 
