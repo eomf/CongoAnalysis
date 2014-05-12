@@ -32,6 +32,20 @@ done
 
 
 for i in *congo*.tif; do r.in.gdal $i out=${i/.tif/}; done
+for i in $(g.mlist rast pat=VCF_congo*); do r.mapcalc ${i}="if(${i} > 100, 0, float(${i})/100)"; done
 
-r.series input=$(g.mlist rast pat=VCF* sep=,) output=VCF_slope_2000_2010 method=slope
-r.series input=$(g.mlist rast pat=VCF* sep=,) output=VCF_R2_2000_2010 method=detcoeff
+g.region align=VCF_congo_2000
+r.series input=$(g.mlist rast pat=VCF_congo_* sep=,) output=VCF_slope_2000_2010,VCF_slope_2000_2010_R2 method=slope,detcoeff
+r.series input=$(echo VCF_congo_{2007..2010} | sed 's/ /,/g') output=VCF_slope_2007_2010,VCF_slope_2007_2010_R2 method=slope,detcoeff
+
+r.series input=$(g.mlist rast pat=VCF_congo_* sep=,) output=VCF_R2_2000_2010 method=detcoeff
+
+
+### Difference analysis with PALSAR
+g.region rast=VCF_congo_2008
+
+r.resamp.stats --o input=FNF_${YEAR}_bin output=fnf_to_vcf_grid_pct method=average
+r.mapcalc diff_forest_vcf="VCF_congo_2008 - fnf_to_vcf_grid_pct"
+r.out.rast input=diff_forest_vcf output=VCF_FNF_2008_difference
+
+
