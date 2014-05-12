@@ -65,8 +65,8 @@ r.mapcalc forest_${YEAR}="if(MCD12C1.A${YEAR}_Majority_Land_Cover_Type_1 >=1 && 
 ### Compute total forest percent for year 2001-2012
 g.region rast=MCD12C1.A${YEAR}_Majority_Land_Cover_Type_1
 for YEAR in $(seq 2001 2012); do 
-# Sum all forest categories and convert to floating point representation
-r.mapcalc pct_forest_${YEAR}="float( (float(MCD12C1.A${YEAR}_Land_Cover_Type_1_Percent.1) + float(MCD12C1.A${YEAR}_Land_Cover_Type_1_Percent.2) + float(MCD12C1.A${YEAR}_Land_Cover_Type_1_Percent.3) + float(MCD12C1.A${YEAR}_Land_Cover_Type_1_Percent.4) + float(MCD12C1.A${YEAR}_Land_Cover_Type_1_Percent.5)) / float(100) )"
+    # Sum all forest categories and convert to floating point representation
+    r.mapcalc pct_forest_${YEAR}="float( (float(MCD12C1.A${YEAR}_Land_Cover_Type_1_Percent.1) + float(MCD12C1.A${YEAR}_Land_Cover_Type_1_Percent.2) + float(MCD12C1.A${YEAR}_Land_Cover_Type_1_Percent.3) + float(MCD12C1.A${YEAR}_Land_Cover_Type_1_Percent.4) + float(MCD12C1.A${YEAR}_Land_Cover_Type_1_Percent.5)) / float(100) )"
 done
 
 slopeandr2() { 
