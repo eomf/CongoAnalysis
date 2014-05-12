@@ -101,7 +101,7 @@ d.legend forest_slope_2001_2012
 d.out.file -c out=forest_slope_2001_2012 format=jpg
 
 # Create bin map for FNF
-g.region align=FNF_${YEAR}
+g.region rast=FNF_${YEAR}
 # Reclass FNF_2008
 # - FNF_reclass.txt
 # 1 = 1
