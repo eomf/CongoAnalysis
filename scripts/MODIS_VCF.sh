@@ -40,6 +40,7 @@ r.series input=$(echo VCF_congo_{2007..2010} | sed 's/ /,/g') output=VCF_slope_2
 
 r.series input=$(g.mlist rast pat=VCF_congo_* sep=,) output=VCF_R2_2000_2010 method=detcoeff
 
+for i in $(g.mlist rast pat=VCF_slope*); do r.out.gdal input=$i output=$i.tif create=COMPRESS=LZW; done
 
 ### Difference analysis with PALSAR
 g.region rast=VCF_congo_2008
